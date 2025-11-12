@@ -1,0 +1,60 @@
+{
+  "name": "Go Dev Container",
+  "image": "mcr.microsoft.com/devcontainers/go:1.23-bookworm",
+  "customizations": {
+    "jetbrains": {
+      "settings": {
+        "org.jetbrains.plugins.github:app:GithubSettings.clone_git_using_ssh": true
+      },
+      "backend": "GO",
+      "plugins": [
+        "com.intellij.docker",
+        "com.intellij.protobuf",
+        "org.intellij.plugins.markdown",
+        "org.intellij.terraform",
+        "com.jetbrains.jsonSchema",
+        "com.jetbrains.plugins.makefile",
+        "com.jetbrains.restClient",
+        "org.jetbrains.plugins.coverage",
+        "org.jetbrains.plugins.database",
+        "org.jetbrains.plugins.go",
+        "org.jetbrains.plugins.go-debugger",
+        "org.jetbrains.plugins.go-template",
+        "org.jetbrains.plugins.go-test-runner",
+        "org.jetbrains.plugins.yaml"
+      ]
+    }
+  },
+  "workspaceFolder": "/workspace",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
+  "mounts": [
+    "source=${localWorkspaceFolder}/.idea,target=/workspace/.idea,type=bind"
+  ],
+  "forwardPorts": [
+    8080,
+    9000
+  ],
+  "remoteUser": "vscode",
+  "postCreateCommand": "bash -lc 'if [ -f go.mod ]; then go mod download; fi && go version'",
+  "postStartCommand": "go mod tidy",
+  "containerEnv": {
+    "GO111MODULE": "on",
+    "GOPATH": "/go"
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "installZsh": true,
+      "username": "vscode",
+      "userUid": "1000",
+      "userGid": "1000"
+    },
+    "ghcr.io/devcontainers/features/git:1": {
+      "version": "latest",
+      "ppa": false
+    },
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+      "version": "latest",
+      "dockerDashComposeVersion": "v2"
+    }
+  }
+}

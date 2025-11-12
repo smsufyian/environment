@@ -1,0 +1,205 @@
+# ==============================
+# Go (Golang) Project .gitignore
+# Target: Go 1.23, Dev Containers (Docker), JetBrains IDEs
+# Note: The .idea directory is mounted in the dev container and should NOT be ignored.
+# This file is organized in clearly labeled sections with explanations.
+# ==============================
+
+# ------------------------------------------------------------
+# 1) Standard Go build artifacts and binaries
+# ------------------------------------------------------------
+# Executables and shared libraries produced by `go build`, `go install`, or `go test -c`
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+*.a
+
+# Common build output directories (adjust if your project uses different ones)
+/bin/
+/build/
+/dist/
+/release/
+
+# If you build per-package binaries in cmd/*, ignore resulting binaries but keep sources
+# (Uncomment and tailor if you emit binaries to cmd/*)
+# /cmd/*/*.exe
+# /cmd/*/*
+
+# ------------------------------------------------------------
+# 2) Dependencies, module cache, and vendor directories
+# ------------------------------------------------------------
+# Go modules: keep go.mod and go.sum tracked; do not ignore them
+!go.mod
+!go.sum
+
+# Vendor directory (ignored by default; remove this line if you commit vendor/)
+/vendor/
+
+# Local build cache directories if present in the repo (Go's default cache lives outside the project)
+.gocache/
+.cache/
+.cache/go-build/
+
+# ------------------------------------------------------------
+# 3) IDE/editor files (JetBrains, VS Code, others)
+# ------------------------------------------------------------
+# IMPORTANT: Keep .idea because it's mounted inside the dev container and should be versioned/configurable here
+!.idea/
+
+# JetBrains user-specific files sometimes created outside mount (rare); do not ignore .idea per requirement
+# (Intentionally no .idea/* ignore rules here)
+
+# VS Code workspace settings (safe to ignore) but allow recommended extensions/settings if you prefer
+.vscode/
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# Other editor metadata
+.fleet/
+.history/
+.ionide/
+
+# ------------------------------------------------------------
+# 4) Operating system files
+# ------------------------------------------------------------
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+.Spotlight-V100
+.Trashes
+.fseventsd
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+.Trash-*/
+.nfs*
+.fuse_hidden*
+
+# ------------------------------------------------------------
+# 5) Environment/config files that might contain secrets
+# ------------------------------------------------------------
+.env
+.env.*
+.envrc
+.env.local
+.envrc.local
+.secrets*
+secrets.*
+*.secret
+*.secrets
+*.key
+*.pem
+*.crt
+*.pfx
+*.p12
+*.jks
+*.keystore
+id_rsa
+id_rsa.*
+
+# Keep examples/templates of env files
+!.env.example
+!.env.sample
+!.env.template
+
+# Keep Go workspace files if used
+!go.work
+!go.work.sum
+
+# Common local config patterns (adjust to your project)
+*.local.yaml
+*.local.yml
+*.local.json
+config.local.*
+
+# ------------------------------------------------------------
+# 6) Test coverage reports and profiling data
+# ------------------------------------------------------------
+coverage.out
+coverage.html
+profile.out
+cpu.prof
+mem.prof
+block.prof
+mutex.prof
+trace.out
+pprof/*
+
+# ------------------------------------------------------------
+# 7) Temporary files and logs
+# ------------------------------------------------------------
+*.log
+logs/
+log/
+tmp/
+temp/
+.tmp/
+.cache/
+
+# Patch/merge residues and editor swap files
+*.swp
+*.swo
+*.orig
+*.rej
+*.bak
+*.backup
+*.tmp
+
+# ------------------------------------------------------------
+# 8) Docker and Dev Container related artifacts
+# ------------------------------------------------------------
+# Keep devcontainer config; it's part of the project setup
+!.devcontainer/
+
+# Local Docker override files and transient data
+docker-compose.override.yml
+docker-compose.*.override.yml
+docker/*.local.yml
+.docker/
+docker-data/
+docker-volume/
+var/lib/docker/
+
+# Do not ignore Dockerfile(s) or .dockerignore
+!Dockerfile
+!.dockerignore
+
+# ------------------------------------------------------------
+# 9) Common editor backup files
+# ------------------------------------------------------------
+*~
+.#*
+*.kate-swp
+*.sublime-workspace
+*.sublime-project
+
+# ------------------------------------------------------------
+# 10) Miscellaneous
+# ------------------------------------------------------------
+# Node or tooling caches that sometimes appear in polyglot repos
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-store/
+
+# Python virtual envs if used for tooling
+.venv/
+venv/
+
+#IntelliJ specific files and directories
+.idea
