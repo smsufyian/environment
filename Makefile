@@ -1,3 +1,5 @@
+
+# Global configuration and helpers
 .PHONY: help check-deps install-deps check-docker devstart devstop devrebuild devlogs devshell devclean
 
 # Colors for output
@@ -18,6 +20,8 @@ PROGRESS_FULL := █
 PROGRESS_WIDTH := 30
 
 # Detect OS
+# Also detect Windows-like environments (Git Bash/MSYS/Cygwin/WSL) via uname -s and
+# treat them as "windows". Assumes a Bash-compatible shell is used on Windows.
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
 	OS := linux
@@ -25,6 +29,15 @@ endif
 ifeq ($(UNAME_S),Darwin)
 	OS := macos
 endif
+ifneq (,$(filter MINGW% MSYS% CYGWIN%,$(UNAME_S)))
+	OS := windows
+endif
+
+# Helper macros for colored output
+# IMPORTANT: Do NOT prefix commands in macro bodies with '@'. These macros may be
+# expanded inside shell blocks (if/then/else). If the body started with '@', the shell
+# would see a literal '@echo' which fails. Suppress echoing at call sites instead,
+# e.g., use '@$(call print_section,...)' inside recipes.
 
 # Helper function to print colored header
 define print_header
@@ -70,6 +83,9 @@ endef
 define print_info
 	echo "$(BLUE)ℹ $(1)$(NC)"
 endef
+
+# Default command when just running 'make'
+.DEFAULT_GOAL := help
 
 help:
 	@$(call print_header,Dev Container Toolkit - Available Commands)
@@ -212,6 +228,29 @@ else ifeq ($(OS),linux)
 	@echo ""
 	@$(call print_success,All dependencies installed for Linux)
 	@echo ""
+else ifeq ($(OS),windows)
+	@echo "$(MAGENTA)→ Windows detected$(NC)"
+	@echo ""
+	@$(call print_section,Checking Docker)
+	@if command -v docker >/dev/null 2>&1; then \
+		$(call print_success,Docker is available on PATH); \
+		docker --version | sed 's/^/  /'; \
+	else \
+		$(call print_warning,Please install Docker Desktop for Windows: https://docs.docker.com/desktop/install/windows/); \
+	fi
+	@echo ""
+	@$(call print_section,Checking Dev Containers CLI)
+	@if command -v devcontainer >/dev/null 2>&1; then \
+		$(call print_success,Dev Containers CLI is available); \
+		devcontainer --version | sed 's/^/  /'; \
+	else \
+		$(call print_warning,Dev Containers CLI not found); \
+		echo "  Install via npm: npm install -g @devcontainers/cli"; \
+		echo "  Note: Node.js is required: https://nodejs.org/"; \
+	fi
+	@echo ""
+	@$(call print_info,On Windows, this Makefile provides detection and guidance only. Follow the instructions above.)
+	@echo ""
 else
 	@$(call print_error,Unsupported OS detected)
 	@echo "$(YELLOW)Please install the following manually:$(NC)"
@@ -276,6 +315,3 @@ devclean: check-docker
 	@echo ""
 	@$(call print_success,All containers and unused images removed)
 	@echo ""
-
-# Default command when just running 'make'
-.DEFAULT_GOAL := help
