@@ -23,6 +23,40 @@
         "org.jetbrains.plugins.go-test-runner",
         "org.jetbrains.plugins.yaml"
       ]
+    },
+    "vscode": {
+      "extensions": [
+        "golang.go",
+        "premparihar.gotestexplorer",
+        "766b.go-outliner",
+        "msyrus.go-doc",
+        "ms-azuretools.vscode-docker",
+        "zxh404.vscode-proto3",
+        "eamodio.gitlens",
+        "mhutchie.git-graph",
+        "ms-kubernetes-tools.vscode-kubernetes-tools",
+        "hashicorp.terraform",
+        "redhat.vscode-yaml",
+        "esbenp.prettier-vscode",
+        "streetsidesoftware.code-spell-checker",
+        "vscodevim.vim",
+        "davidanson.vscode-markdownlint"
+      ],
+      "settings": {
+        "go.lintOnSave": "package",
+        "go.lintTool": "golangci-lint",
+        "go.formatTool": "gofmt",
+        "go.useCodeSnippetsOnFunctionSuggest": true,
+        "editor.formatOnSave": true,
+        "editor.tabSize": 4,
+        "editor.wordWrap": "on",
+        "[go]": {
+          "useLanguageServer": true,
+          "editor.insertSpaces": false
+        },
+        "docker.dockerPath": "/usr/local/bin/docker",
+        "docker.composePath": "/usr/local/bin/docker-compose"
+      }
     }
   },
   "workspaceFolder": "/workspace",
