@@ -70,10 +70,11 @@
   ],
   "remoteUser": "vscode",
   "postCreateCommand": "bash -lc 'if [ -f go.mod ]; then go mod download; fi && go version'",
-  "postStartCommand": "go mod tidy",
+  "postStartCommand": "bash -lc 'if [ -f go.mod ]; then go mod tidy; fi'",
   "containerEnv": {
     "GO111MODULE": "on",
-    "GOPATH": "/go"
+    "GOPATH": "/go",
+    "INSIDE_DEVCONTAINER": "1"
   },
   "features": {
     "ghcr.io/devcontainers/features/common-utils:2": {
